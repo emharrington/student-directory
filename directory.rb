@@ -1,27 +1,5 @@
 @students = [] # empty array accessible by all methods
 
-def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  # get the fist name:
-  name = gets.chomp
-  # when name isnt empty, repeat this code:
-  while !name.empty? do
-    # add the student hash to array:
-    @students << {name: name, cohort: :november}
-    puts "Now we have #{@students.count} students"
-    # get another name from user:
-    name = gets.chomp
-  end
-end
-
-def menu
-  loop do
-    print_menu
-    process(gets.chomp)
-  end
-end
-
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
@@ -30,10 +8,11 @@ def print_menu
   puts "9. Exit" # 9 as we will add more items
 end
 
-def show_students
-  print_header
-  print_students_list
-  print_footer
+def menu
+  loop do
+    print_menu
+    process(STDIN.gets.chomp)
+  end
 end
 
 def process(selection)
@@ -53,12 +32,33 @@ def process(selection)
   end
 end
 
+def input_students
+  puts "Please enter the names of the students"
+  puts "To finish, just hit return twice"
+  # get the fist name:
+  name = STDIN.gets.chomp
+  # when name isnt empty, repeat this code:
+  while !name.empty? do
+    # add the student hash to array:
+    @students << {name: name, cohort: :november}
+    puts "Now we have #{@students.count} students"
+    # get another name from user:
+    name = STDIN.gets.chomp
+  end
+end
+
+def show_students
+  print_header
+  print_student_list
+  print_footer
+end
+
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
 end
 
-def print_students_list
+def print_student_list
   # for every student iteration, we get their name & cohort:
   @students.each do |student|
     puts "#{student[:name]} (#{student[:cohort]} cohort)"
@@ -81,8 +81,8 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
@@ -90,4 +90,17 @@ def load_students
   file.close
 end
 
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exist?(filename) # if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
+
+try_load_students
 menu
