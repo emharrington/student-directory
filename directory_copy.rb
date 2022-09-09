@@ -24,7 +24,16 @@ end
 
 def print(students)
   students.each_with_index do |student, index|
-    puts "#{index+1}. #{student[:name]} (#student[:cohort]} cohort)"
+    puts "#{index+1}. #{student[:name]}, #{student[:cohort]} cohort"
+  end
+  puts "Student who's name begins with: "
+  letter = gets.chomp
+  matches = 0
+  students.each do |student|
+    if student[:name].start_with?(letter.upcase, letter.downcase)
+      puts "#{student [:name]}, #{student[:cohort]} cohort"
+      matches += 1
+    end
   end
 end
 
@@ -35,7 +44,5 @@ end
 students = input_students
 #nothing happens until we call the methods
 print_header
-if students
 print(students)
 print_footer(students)
-end
