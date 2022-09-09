@@ -1,20 +1,32 @@
-def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  # create an empty array
-  students = []
-  # get the first name
-  name = gets.chomp
-  # while the name is not empty, repeat this code
-  while !name.empty? do
-    # add the student hash to the array
-    students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
-    # get another name from the user
-    name = gets.chomp
+@students = []
+
+def new_student
+  puts "Create new student? (y/n)"
+  answer = gets.chomp.downcase
+  if answer == "y"
+    return true
+  elsif answer == "n"
+    return false
+  else
+    puts "Create new student? (y/n)"
   end
-  # return the array of students
-  students
+  new_student
+end
+
+def input_students
+  answer = new_student
+  while answer
+    puts "Please enter students name:"
+    name = gets.chomp
+    puts "Please enter students country of birth:"
+    country_of_birth = gets.chomp
+    puts "Please enter students hobbies:"
+    hobbies = gets.chomp
+    @students << { name: name, cohort: :november, country_of_birth: country_of_birth, hobbies: hobbies }
+    puts "We now have #{@students.count} students"
+    answer = new_student
+  end
+  @students
 end
 
 def print_header
@@ -22,20 +34,19 @@ def print_header
   puts "-------------"
 end
 
-def print(students)
-  x = 0
-  while x < students.count
-    puts "#{students[x][:name]}, #{students[:cohort]} cohort"
-    x += 1
+def print_student
+  puts "NAME - COHORT - COUNTRY - HOBBIES"
+  @students.each do |student|
+    puts "#{@students[:name]} - #{@students[:cohort]} - #{@students[:country_of_birth]} - #{@students[:hobbies]}"
   end
 end
 
-def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+def print_footer
+  puts "Overall, we have #{@students.count} great students"
 end
 
-students = input_students
+@students = input_students
 #nothing happens until we call the methods
 print_header
-print(students)
-print_footer(students)
+print_student
+print_footer
