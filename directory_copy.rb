@@ -26,11 +26,11 @@ def print(students)
   students.each_with_index do |student, index|
     puts "#{index+1}. #{student[:name]}, #{student[:cohort]} cohort"
   end
-  puts "Student who's name begins with: "
-  letter = gets.chomp
-  matches = 0
+  puts "Student names with max characters: "
+  max_length = gets.chomp
+  matchs = 0
   students.each do |student|
-    if student[:name].start_with?(letter.upcase, letter.downcase)
+    if student[:name].length <= max_length.to_i
       puts "#{student [:name]}, #{student[:cohort]} cohort"
       matches += 1
     end
