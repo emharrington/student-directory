@@ -23,17 +23,10 @@ def print_header
 end
 
 def print(students)
-  students.each_with_index do |student, index|
-    puts "#{index+1}. #{student[:name]}, #{student[:cohort]} cohort"
-  end
-  puts "Student names with max characters: "
-  max_length = gets.chomp
-  matchs = 0
-  students.each do |student|
-    if student[:name].length <= max_length.to_i
-      puts "#{student [:name]}, #{student[:cohort]} cohort"
-      matches += 1
-    end
+  x = 0
+  while x < students.count
+    puts "#{students[x][:name]}, #{students[:cohort]} cohort"
+    x += 1
   end
 end
 
